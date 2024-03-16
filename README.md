@@ -39,7 +39,44 @@ To install the tool :
 To parse a log file with Linux Logs Parser, run the following command:
 
 ```sh
-python log_parser.py -l /path/to/your/logfile.log -o /path/to/output/parsed.jsonl
+python3 llp.py -l /path/to/your/logfile.log -o /path/to/output/parsed.jsonl
+```
+
+## Example 
+
+Auth.log : 
+
+```log
+Feb 10 16:25:26 ubuntu groupadd[324]: new group: name=lxd, GID=1000
+Feb 10 16:25:26 ubuntu groupadd[330]: group added to /etc/gshadow: name=netdev
+Feb 10 16:25:26 ubuntu useradd[336]: new group: name=ubuntu, GID=1002
+Feb 10 16:25:26 ubuntu useradd[336]: new user: name=ubuntu, UID=1000, GID=1002, home=/home/ubuntu, shell=/bin/bash, from=none
+Feb 10 16:25:26 ubuntu useradd[336]: add 'ubuntu' to group 'adm'
+Feb 10 16:25:26 ubuntu useradd[336]: add 'ubuntu' to shadow group 'netdev'
+Feb 10 16:25:26 ubuntu passwd[344]: password for 'ubuntu' changed by 'root'
+Feb 10 16:26:15 ubuntu sudo:     root : PWD=/ ; USER=root ; COMMAND=/usr/sbin/usermod --shell /usr/bin/fish root
+Feb 10 16:26:15 ubuntu sudo:     root : PWD=/ ; USER=root ; COMMAND=/usr/bin/wget https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install -O install
+````
+
+From the CLI : 
+
+```sh
+python3 llp.py -l auth.log -o out.jsonl
+```
+
+Result : 
+
+```json
+{"timestamp": "2024-02-10T16:25:26+00:00", "hostname": "ubuntu", "appname": "groupadd", "pid": "324", "message": "new group: name=lxd, GID=1000", "Action": "new group", "Group": "lxd", "GID": "1000"}
+{"timestamp": "2024-02-10T16:25:26+00:00", "hostname": "ubuntu", "appname": "groupadd", "pid": "330", "message": "group added to /etc/group: name=netdev, GID=1001", "Action": "added", "List": "/etc/group", "Group": "netdev", "GID": "1001"}
+{"timestamp": "2024-02-10T16:25:26+00:00", "hostname": "ubuntu", "appname": "groupadd", "pid": "330", "message": "group added to /etc/gshadow: name=netdev", "Action": "added", "List": "/etc/gshadow", "Group": "netdev"}
+{"timestamp": "2024-02-10T16:25:26+00:00", "hostname": "ubuntu", "appname": "useradd", "pid": "336", "message": "new group: name=ubuntu, GID=1002", "Action": "new group", "Group": "ubuntu", "GID": "1002"}
+{"timestamp": "2024-02-10T16:25:26+00:00", "hostname": "ubuntu", "appname": "useradd", "pid": "336", "message": "new user: name=ubuntu, UID=1000, GID=1002, home=/home/ubuntu, shell=/bin/bash, from=none", "Action": "new user", "Username": "ubuntu", "UID": "1000", "GID": "1002", "Home": "/home/ubuntu", "Shell": "/bin/bash", "From": "none"}
+{"timestamp": "2024-02-10T16:25:26+00:00", "hostname": "ubuntu", "appname": "useradd", "pid": "336", "message": "add 'ubuntu' to group 'adm'", "Action": "add", "Username": "ubuntu", "Group": "adm"}
+{"timestamp": "2024-02-10T16:25:26+00:00", "hostname": "ubuntu", "appname": "useradd", "pid": "336", "message": "add 'ubuntu' to shadow group 'netdev'", "Action": "add", "Username": "ubuntu", "Type": "shadow", "Group": "netdev"}
+{"timestamp": "2024-02-10T16:25:26+00:00", "hostname": "ubuntu", "appname": "passwd", "pid": "344", "message": "password for 'ubuntu' changed by 'root'", "Username": "ubuntu", "Action": "changed", "By": "root"}
+{"timestamp": "2024-02-10T16:26:15+00:00", "hostname": "ubuntu", "appname": "sudo", "pid": "", "message": "root : PWD=/ ; USER=root ; COMMAND=/usr/sbin/usermod --shell /usr/bin/fish root", "User": "root", "PWD": "/", "Username": "root", "CommandLine": "/usr/sbin/usermod --shell /usr/bin/fish root"}
+{"timestamp": "2024-02-10T16:26:15+00:00", "hostname": "ubuntu", "appname": "sudo", "pid": "", "message": "root : PWD=/ ; USER=root ; COMMAND=/usr/bin/wget https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install -O install", "User": "root", "PWD": "/", "Username": "root", "CommandLine": "/usr/bin/wget https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install -O install"}
 ```
 
 ### Command Line Arguments
