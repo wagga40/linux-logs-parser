@@ -8,6 +8,8 @@ Linux Logs Parser is a tool designed to parse various log formats found in Linux
 
 **Please note that this is a Work In Progress**
 
+**Tested with :** auth.log and syslog.log
+
 ## Installation
 
 Before installing Linux Logs Parser, ensure you have Python 3.8 or newer installed on your system. 
