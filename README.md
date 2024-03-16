@@ -2,7 +2,7 @@
 
 ## Introduction
 
-**IMPORTANT** : If you have syslog.log or auth.log files coming from a Linux system, you are at the right place. If the systems you are getting logs from have `journald`, **do not use LLP and do this instead** : `journalctl --output=json`.
+**IMPORTANT** : If you have syslog.log or auth.log files coming from a Linux system and you want to parse and analyse them, you are at the right place. If the systems you are getting logs from have `journald`, **do not use LLP and do this instead** : `journalctl --output=json`.
 
 Linux Logs Parser is a tool designed to parse various log formats found in Linux systems. Utilizing the power of the `pyparsing` library, it can, by default, parse logs from syslog, auth.log, and other files related to user and group management activities. The parser supports multiple timestamp formats and can easily be modified to handle more.
 
