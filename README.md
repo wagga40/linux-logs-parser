@@ -42,7 +42,7 @@ To parse a log file with Linux Logs Parser, run the following command:
 python3 llp.py -l /path/to/your/logfile.log -o /path/to/output/parsed.jsonl
 ```
 
-## Example 
+### Example 
 
 Auth.log : 
 
@@ -84,6 +84,30 @@ Result :
 - `-o`, `--output`: Specifies the path to the output file where parsed logs will be saved (default: `parsed.jsonl`)
 - `-c`, `--config`: Specifies the path to the config file (default: `config.yml`)
 - `-v`, `--verbose`: Enables verbose output (optional).
+
+### Field names 
+
+All field names can be configured in the [config.yml](config.yml) file.
+
+## Internals
+
+LLP not only parse the standard linux log fields (SYSLOG) but also the "message" field following this process (example) : 
+
+```mermaid
+flowchart LR
+    A[fa:fa-file-alt Event] -->|fa:fa-cogs pyParsing| B(fa:fa-file-code Parsed event)
+    B --> D[priority]
+    B --> E[timestamp]
+    B --> F[hostname]
+    B --> G[appname]
+    B --> H[pid]
+    B --> I[message] 
+    I -->|fa:fa-cogs pyParsing| J(fa:fa-file-code Parsed message field)
+    J --> K[USER]
+    J --> L[TTY]
+    J --> M[PWD]
+    J --> N[CommandLine]
+```
 
 ## Contributing
 We welcome contributions to the Linux Logs Parser project! If you have suggestions for improvements, please open an issue or submit a pull request.
